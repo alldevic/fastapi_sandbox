@@ -12,7 +12,7 @@ ENV PYTHONPATH=/usr/bin/python
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --no-install-suggests --no-upgrade  python3-pip \
     && pip install pipenv \
-    && PIP_IGNORE_INSTALLED=1 pipenv install --system --deploy --ignore-pipfile \
+    && pipenv install --system --deploy --ignore-pipfile \
     && pip uninstall pipenv virtualenv virtualenv-clone -y \
     && apt remove -y python3-pip \
     && apt autoremove --purge -y \
