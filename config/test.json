@@ -10,7 +10,10 @@
             "type": "python 3.10",
             "path": "/app",
             "module": "core.asgi",
-            "callable": "app"
+            "callable": "app",
+            "processes": {
+                "idle_timeout": 2
+            }
         }
     }
 }

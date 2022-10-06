@@ -4,7 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-fastapi = "*"
+fastapi = "==0.85.0"
+orjson = "==3.8.0"
 
 [dev-packages]
 
