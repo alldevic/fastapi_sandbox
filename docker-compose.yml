@@ -1,36 +1,35 @@
 version: "3.8"
 
 services:
-  # db:
-  #   container_name: ${COMPOSE_PROJECT_NAME}_${POSTGRES_CONTAINER_NAME}
-  #   env_file: .env
-  #   image: postgres:14-alpine
-  #   restart: always
-  #   volumes:
-  #     - db_data:/var/lib/postgresql/data:rw
-  #   environment:
-  #     POSTGRES_DB: ${POSTGRES_DB}
-  #     POSTGRES_USER: ${POSTGRES_SU}
-  #     POSTGRES_PASSWORD: ${POSTGRES_SU_PASS}
-  #   networks:
-  #     private_network:
-  #       ipv4_address: ${POSTGRES_HOST}
+  db:
+    container_name: ${COMPOSE_PROJECT_NAME}_${POSTGRES_CONTAINER_NAME}
+    env_file: .env
+    image: postgres:14
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_SU}
+      POSTGRES_PASSWORD: ${POSTGRES_SU_PASS}
+    networks:
+      private_network:
+        ipv4_address: ${POSTGRES_HOST}
   
   nginx-unit:
-    container_name: ${COMPOSE_PROJECT_NAME}-unit
+    container_name: ${COMPOSE_PROJECT_NAME}_${UNIT_CONTAINER_NAME}
     env_file: .env
     build: 
       context: ./app
       args:
-        - PROJECT_NAME=${COMPOSE_PROJECT_NAME}
-    ports:
-      - 80:8000
+        - BASE_IMAGE=${COMPOSE_PROJECT_NAME}_${UNIT_BASE_IMAGE_NAME}:latest
+        - 80:8000
     volumes:
       - ./config/:/docker-entrypoint.d/:ro
       - ./app/:/app/:ro
     networks:
       private_network:
-        ipv4_address: 172.19.0.6
+        ipv4_address: ${UNIT_HOST}
       
 
 networks:
@@ -42,7 +41,7 @@ networks:
       config:
         - subnet: ${DOCKER_SUBNET}
 
-# volumes:
-#   db_data:
-#     external:
-#       name: ${COMPOSE_PROJECT_NAME}_${POSTGRES_VOLUME_DATA_NAME}
+volumes:
+  db_data:
+    external:
+      name: ${COMPOSE_PROJECT_NAME}_${POSTGRES_VOLUME_DATA_NAME}

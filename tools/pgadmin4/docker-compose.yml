@@ -1,0 +1,31 @@
+services:
+  pgadmin:
+    container_name: ${COMPOSE_PROJECT_NAME}_${PGADMIN_CONTAINER_NAME}
+    env_file: .env
+    image: dpage/pgadmin4:latest
+    ports:
+      - ${PGADMIN_LISTEN_PORT}:${PGADMIN_LISTEN_PORT}
+    volumes:
+      - ./tools/pgadmin4/servers.json:/pgadmin4/servers.json:ro
+      - pgadmin_data:/var/lib/pgadmin:rw
+    environment:
+      PGADMIN_CONFIG_SERVER_MODE: 0
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: 0
+      # Default user for desktop mode (SERVER_MODE = False)
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      # Default password for desktop mode (SERVER_MODE = False)
+      PGADMIN_DEFAULT_PASSWORD: password
+      PGADMIN_LISTEN_ADDRESS: 0.0.0.0
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - "/bin/echo '${POSTGRES_HOST}:5432:*:${POSTGRES_SU}:${POSTGRES_SU_PASS}' > /tmp/pgpassfile && chmod 600 /tmp/pgpassfile && /entrypoint.sh"
+    networks:
+      private_network: 
+        ipv4_address: ${PGADMIN_HOST}
+
+volumes:
+  pgadmin_data:
+    external:
+      name: ${COMPOSE_PROJECT_NAME}_${PGADMIN_VOLUME_NAME}
