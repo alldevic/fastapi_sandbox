@@ -8,8 +8,12 @@ ENV PYTHONDONTWRITEBYTECODE 1
 WORKDIR /app/
 
 COPY Pipfile Pipfile.lock /app/
-
-RUN pip install --disable-pip-version-check --no-cache-dir --ignore-installed pipenv \
-    &&  pipenv install --system --deploy --ignore-pipfile \
+ENV PYTHONPATH=/usr/bin/python
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends --no-install-suggests --no-upgrade  python3-pip \
+    && pip install pipenv \
+    && PIP_IGNORE_INSTALLED=1 pipenv install --system --deploy --ignore-pipfile \
     && pip uninstall pipenv virtualenv virtualenv-clone -y \
-    && rm -rf /root/.cache /root/.local
+    && apt remove -y python3-pip \
+    && apt autoremove --purge -y \
+    && rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/*.list /root/.cache /root/.local

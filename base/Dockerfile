@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
         curl \
         ca-certificates \
         python${PY3_VERSION} \
-        python3-pip \
         python-is-python3 \
     && curl -O ${REPO}/unit/${UNIT_PKG} \
     && curl -O ${REPO}/unit-python${PY3_VERSION}/${UNIT_PY3_PKG} \
