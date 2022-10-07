@@ -23,7 +23,8 @@ services:
       context: ./app
       args:
         - BASE_IMAGE=${COMPOSE_PROJECT_NAME}_${UNIT_BASE_IMAGE_NAME}:latest
-        - 80:8000
+    ports:
+      - 80:8000
     volumes:
       - ./config/:/docker-entrypoint.d/:ro
       - ./app/:/app/:ro
