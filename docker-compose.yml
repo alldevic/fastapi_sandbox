@@ -16,7 +16,7 @@ services:
       private_network:
         ipv4_address: ${POSTGRES_HOST}
   
-  nginx-unit:
+  unit:
     container_name: ${COMPOSE_PROJECT_NAME}_${UNIT_CONTAINER_NAME}
     env_file: .env
     build: 
@@ -24,10 +24,11 @@ services:
       args:
         - BASE_IMAGE=${COMPOSE_PROJECT_NAME}_${UNIT_BASE_IMAGE_NAME}:latest
     ports:
-      - 80:8000
+      - 8000:8000
+      - 8081:8081
     volumes:
       - ./config/:/docker-entrypoint.d/:ro
-      - ./app/:/app/:ro
+      - ./app/:/app/
     networks:
       private_network:
         ipv4_address: ${UNIT_HOST}

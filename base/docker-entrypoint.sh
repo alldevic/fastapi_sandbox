@@ -4,7 +4,7 @@ set -e
 
 curl_put()
 {
-    RET=`/usr/bin/curl -s -w '%{http_code}' -X PUT --data-binary @$1 --unix-socket /var/run/control.unit.sock http://localhost/$2`
+    RET=`/usr/bin/curl -s -w '%{http_code}' -X PUT --data-binary @$1 http://localhost:8081/$2`
     RET_BODY=${RET::-3}
     RET_STATUS=$(echo $RET | /usr/bin/tail -c 4)
     if [ "$RET_STATUS" -ne "200" ]; then
@@ -24,12 +24,11 @@ if [ "$1" = "unitd" -o "$1" = "unitd-debug" ]; then
     else
         if /usr/bin/find "/docker-entrypoint.d/" -mindepth 1 -print -quit 2>/dev/null | /bin/grep -q .; then
             echo "$0: /docker-entrypoint.d/ is not empty, launching Unit daemon to perform initial configuration..."
-            /usr/sbin/$1 --control unix:/var/run/control.unit.sock
+            /usr/sbin/$1
 
-            while [ ! -S /var/run/control.unit.sock ]; do echo "$0: Waiting for control socket to be created..."; /bin/sleep 0.1; done
             # even when the control socket exists, it does not mean unit has finished initialisation
             # this curl call will get a reply once unit is fully launched
-            /usr/bin/curl -s -X GET --unix-socket /var/run/control.unit.sock http://localhost/
+            /usr/bin/curl -s -X GET http://localhost:8081/
 
             echo "$0: Looking for certificate bundles in /docker-entrypoint.d/..."
             for f in $(/usr/bin/find /docker-entrypoint.d/ -type f -name "*.pem"); do
@@ -55,10 +54,8 @@ if [ "$1" = "unitd" -o "$1" = "unitd-debug" ]; then
             done
 
             echo "$0: Stopping Unit daemon after initial configuration..."
-            kill -TERM `/bin/cat /var/run/unit.pid`
-
-            while [ -S /var/run/control.unit.sock ]; do echo "$0: Waiting for control socket to be removed..."; /bin/sleep 0.1; done
-
+            kill -TERM `/bin/cat /var/run/unitd.pid`
+            sleep 0.5
             echo
             echo "$0: Unit initial configuration complete; ready for start up..."
             echo

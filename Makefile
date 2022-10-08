@@ -10,7 +10,7 @@ COMPOSES=-f $(MAIN_COMPOSE) -f $(PGADMIN_COMPOSE)
 
 ifeq ($(DEVELOPMENT), True)
 	CURRENT_UID := $(shell id -u):$(shell id -g)
-	IMAGES := nginx-unit $(POSTGRES_CONTAINER_NAME)
+	IMAGES := $(UNIT_CONTAINER_NAME) $(POSTGRES_CONTAINER_NAME)
 else
 	CURRENT_UID := $(USER_ID):$(USER_GROUP_ID)
 	IMAGES := $(POSTGRES_CONTAINER_NAME)
@@ -74,3 +74,7 @@ links:
 	$(info Django Admin http://localhost:8000/admin)
 	$(info Swagger http://localhost:8000/swagger)
 	$(info Nuxt http://localhost:3000)
+migrations:
+	docker compose exec -u $(CURRENT_UID) $(UNIT_CONTAINER_NAME) alembic revision --autogenerate
+migrate:
+	docker compose exec -u $(CURRENT_UID) $(UNIT_CONTAINER_NAME) alembic upgrade head
