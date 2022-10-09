@@ -5,11 +5,13 @@ core
 from fastapi import Depends, FastAPI
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
+from utils.debug_middleware import toolbar
 
 from .db import get_session
 from .models import Song, SongCreate
 
-app = FastAPI()
+app = FastAPI(debug=True)
+app.add_middleware(**toolbar)
 
 
 @app.get("/ping")
