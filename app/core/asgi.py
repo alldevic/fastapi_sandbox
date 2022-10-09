@@ -6,11 +6,12 @@ from fastapi import Depends, FastAPI
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from utils.debug_middleware import toolbar
+from utils.swaggerui import swagger_ui_params
 
 from .db import get_session
 from .models import Song, SongCreate
 
-app = FastAPI(debug=True)
+app = FastAPI(debug=True, swagger_ui_parameters=swagger_ui_params)
 app.add_middleware(**toolbar)
 
 
