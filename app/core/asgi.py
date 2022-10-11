@@ -25,6 +25,7 @@ async def custom_swagger_ui_html():
         openapi_url=app.openapi_url,
         title=app.title + " - RapiDoc",
         rapidoc_js_url="/static/js/rapidoc-min.js",
+        add_debug_support=True
     )
 
 @app.get("/ping", tags=["test"])
