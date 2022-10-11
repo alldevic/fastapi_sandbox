@@ -12,7 +12,7 @@
             "module": "core.asgi",
             "callable": "app",
             "processes": {
-                "idle_timeout": 2
+                "idle_timeout": 200
             }
         }
     }
