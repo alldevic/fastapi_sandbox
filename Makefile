@@ -64,6 +64,7 @@ pgadmin4:
 	docker volume create $(COMPOSE_PROJECT_NAME)_$(PGADMIN_VOLUME_NAME)
 	docker volume create $(COMPOSE_PROJECT_NAME)_$(POSTGRES_VOLUME_DATA_NAME)
 	docker compose $(COMPOSES) up -d --build --remove-orphans $(PGADMIN_CONTAINER_NAME)
+	$(info PgAdmin4 http://localhost:$(PGADMIN_LISTEN_PORT))
 down-pgadmin4:
 	docker compose $(COMPOSES) rm -fsv ${PGADMIN_CONTAINER_NAME}
 clean-pgadmin4:
