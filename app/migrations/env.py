@@ -7,6 +7,7 @@ from sqlmodel.ext.asyncio.session import AsyncEngine
 from alembic import context
 
 from core.models import Song # All models that needs to be migrated should be added
+from users.models import User
 from core.settings import Settings
 
 
