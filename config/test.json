@@ -15,5 +15,6 @@
                 "idle_timeout": 200
             }
         }
-    }
+    },
+    "access_log": "/dev/stdout"
 }
