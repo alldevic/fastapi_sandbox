@@ -35,7 +35,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends --no-install-su
 		"pip==$PYTHON_PIP_VERSION" \
 		"setuptools==$PYTHON_SETUPTOOLS_VERSION" \
 	&& rm -f get-pip.py \
-	&& pip install --no-cache-dir --no-compile pipenv \
+	&& pip install --no-cache-dir --no-compile --no-deps pipenv \
+	&& python -m compileall -q -b /usr/local/lib/python*/dist-packages/* \
+    && find /usr/local/lib/python*/dist-packages/* -name "*.py" | xargs rm -rf \
+    && find /usr/local/lib/python*/dist-packages/* -name '*.c' -delete \
+    && find /usr/local/lib/python*/dist-packages/* -name '*.pxd' -delete \
+    && find /usr/local/lib/python*/dist-packages/* -name '*.pyd' -delete \
+    && find /usr/local/lib/python*/dist-packages/* -name '__pycache__' | xargs rm -rf \
+	&& python -m compileall -q -b /usr/lib/python*/* \
+    && find /usr/lib/python*/* -name "*.py" | xargs rm -rf \
+    && find /usr/lib/python*/* -name '*.c' -delete \
+    && find /usr/lib/python*/* -name '*.pxd' -delete \
+    && find /usr/lib/python*/* -name '*.pyd' -delete \
+    && find /usr/lib/python*/* -name '__pycache__' | xargs rm -rf \
 	&& unitd --version \
 	&& python --version \
 	&& pip --version \
