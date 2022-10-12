@@ -12,6 +12,7 @@ alembic = "==1.8.1"
 fastapi-toolbar = "*"
 fastapi-users = "==10.1.5"
 fastapi-users-db-sqlmodel = "==0.2.0"
+fastapi-amis-admin = "==0.2.5"
 
 [dev-packages]
 

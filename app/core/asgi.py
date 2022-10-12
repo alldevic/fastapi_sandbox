@@ -4,6 +4,8 @@ core
 
 from fastapi import Depends, FastAPI
 from fastapi.staticfiles import StaticFiles
+from fastapi_amis_admin.admin.settings import Settings as AmisSettings
+from fastapi_amis_admin.admin.site import AdminSite
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from users import current_active_user, users_routes
@@ -11,8 +13,10 @@ from users.models import User
 from utils.debug_middleware import toolbar
 from utils.rapidoc import get_rapidoc_html
 
+from .admin import SongsAdmin
 from .db import get_async_session
 from .models import Song, SongCreate
+from .settings import Settings
 
 app = FastAPI(debug=True, docs_url=None, redoc_url=None)
 
@@ -23,8 +27,16 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 for route in users_routes:
     app.include_router(**route)
 
+site = AdminSite(settings = AmisSettings(
+                        database_url_async = Settings().ASYNC_DATABASE_URI,
+                        debug=True
+                    )
+                )
+site.register_admin(SongsAdmin)
+site.mount_app(app)
+
 @app.get("/docs", include_in_schema=False)
-async def custom_swagger_ui_html():
+async def rapidoc_html():
     """
     RapiDoc documentation
     """
