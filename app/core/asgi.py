@@ -6,12 +6,12 @@ from fastapi import Depends, FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi_amis_admin.admin.settings import Settings as AmisSettings
 from fastapi_amis_admin.admin.site import AdminSite
+from openapi import CustomOpenapi
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from users import current_active_user, users_routes
 from users.models import User
 from utils.debug_middleware import toolbar
-from utils.rapidoc import get_rapidoc_html
 
 from .admin import SongsAdmin
 from .db import get_async_session
@@ -20,32 +20,24 @@ from .settings import Settings
 
 app = FastAPI(debug=True, docs_url=None, redoc_url=None)
 
-app.add_middleware(**toolbar)
+if app.debug:
+    app.add_middleware(**toolbar)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 for route in users_routes:
     app.include_router(**route)
 
-site = AdminSite(settings = AmisSettings(
-                        database_url_async = Settings().ASYNC_DATABASE_URI,
-                        debug=True
-                    )
-                )
+site = AdminSite(
+    settings = AmisSettings(
+        database_url_async = Settings().ASYNC_DATABASE_URI,
+        debug=app.debug
+    ),
+)
 site.register_admin(SongsAdmin)
 site.mount_app(app)
 
-@app.get("/docs", include_in_schema=False)
-async def rapidoc_html():
-    """
-    RapiDoc documentation
-    """
-    return get_rapidoc_html(
-        openapi_url=app.openapi_url,
-        title=app.title + " - RapiDoc",
-        rapidoc_js_url="/static/js/rapidoc-min.js",
-        add_debug_support=True
-    )
+CustomOpenapi(app).register()
 
 @app.get("/ping", tags=["test"])
 async def pong():

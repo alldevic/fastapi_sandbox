@@ -3,7 +3,7 @@
 - update settings.py
 - refact
 - dev deps
-- rapi: oauth redirect
+- rapi: oauth redirect, search, additional buttons, code samples
 - Implement DEVELOPMENT, DEBUG flags
 - Customize unit port
 - unit wait for db
