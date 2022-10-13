@@ -1,0 +1,3 @@
+[submodule "app/fastapi_debug_toolbar"]
+	path = app/fastapi_debug_toolbar
+	url = https://github.com/alldevic/fastapi-debug-toolbar

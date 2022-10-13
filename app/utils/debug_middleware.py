@@ -3,7 +3,8 @@ Customize and fix debug-toolbar issues
 """
 
 from core.db import settings
-from debug_toolbar.middleware import DebugToolbarMiddleware
+from fastapi_debug_toolbar.debug_toolbar.middleware import \
+    DebugToolbarMiddleware
 from jinja2 import Environment
 
 toolbar = {
