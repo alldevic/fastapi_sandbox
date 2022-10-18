@@ -29,15 +29,16 @@ for route in users_routes:
     app.include_router(**route)
 
 site = AdminSite(
-    settings = AmisSettings(
-        database_url_async = Settings().ASYNC_DATABASE_URI,
-        debug=app.debug
+    settings=AmisSettings(
+        database_url_async=Settings().ASYNC_DATABASE_URI,
+        debug=app.debug,
     ),
 )
 site.register_admin(SongsAdmin)
 site.mount_app(app)
 
 CustomOpenapi(app).register()
+
 
 @app.get("/ping", tags=["test"])
 async def pong():
@@ -47,7 +48,7 @@ async def pong():
     return {"ping": "pong!"}
 
 
-@app.get("/songs", response_model=list[Song], tags=['songs'])
+@app.get("/songs", response_model=list[Song], tags=["songs"])
 async def get_songs(session: AsyncSession = Depends(get_async_session)):
     """
     Get all songs from db
@@ -58,7 +59,7 @@ async def get_songs(session: AsyncSession = Depends(get_async_session)):
     return [Song(name=song.name, artist=song.artist, year=song.year, id=song.id) for song in songs]
 
 
-@app.post("/songs", tags=['songs'])
+@app.post("/songs", tags=["songs"])
 async def add_song(song: SongCreate, session: AsyncSession = Depends(get_async_session)):
     """
     Add new song to db

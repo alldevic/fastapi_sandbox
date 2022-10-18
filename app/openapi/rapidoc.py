@@ -10,15 +10,15 @@ from fastapi.encoders import jsonable_encoder
 from starlette.responses import HTMLResponse
 
 rapidoc_default_parameters = {
-    'render-style': 'view',
-    'show-header': False,
-    'allow-spec-url-load': False,
-    'allow-spec-file-load': False,
-    'allow-server-selection': False,
-    'allow-spec-file-download': False,
-    'schema-style': 'table',
-    'schema-description-expanded': True,
-    'load-fonts': False
+    "render-style": "view",
+    "show-header": False,
+    "allow-spec-url-load": False,
+    "allow-spec-file-load": False,
+    "allow-server-selection": False,
+    "allow-spec-file-download": False,
+    "schema-style": "table",
+    "schema-description-expanded": True,
+    "load-fonts": False,
 }
 
 
@@ -29,7 +29,7 @@ def get_rapidoc_html(
     rapidoc_js_url: str = "https://unpkg.com/rapidoc@9.3.3/dist/rapidoc-min.js",
     fastapi_favicon_url: str = "https://fastapi.tiangolo.com/img/favicon.png",
     rapidoc_parameters: Optional[Dict[str, Any]] = None,
-    add_debug_support: Optional[str] = False
+    add_debug_support: Optional[str] = False,
 ) -> HTMLResponse:
     """
     RapiDocAPI documentation from OpenAPI Specification
@@ -47,15 +47,15 @@ def get_rapidoc_html(
         <script type="module" src="{rapidoc_js_url}"></script>
       </head>
       <body>
-        <rapi-doc 
+        <rapi-doc
           id = "thedoc"
           spec-url = "{openapi_url}"
     """
 
     for key, value in current_rapidoc_parameters.items():
-        html += f'{key} = {json.dumps(jsonable_encoder(value))}\n'
+        html += f"{key} = {json.dumps(jsonable_encoder(value))}\n"
 
-    html +='></rapi-doc>'
+    html += "></rapi-doc>"
     if add_debug_support:
         html += """
             <script>
@@ -65,5 +65,5 @@ def get_rapidoc_html(
             )
             </script>
         """
-    html += '</body></html>'
+    html += "</body></html>"
     return HTMLResponse(html)

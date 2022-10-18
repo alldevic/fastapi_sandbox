@@ -14,6 +14,7 @@ class CustomOpenapi:
     """
     Customize openapi for app
     """
+
     def __init__(self, app: FastAPI) -> None:
         self.app = app
 
@@ -38,6 +39,12 @@ class CustomOpenapi:
             routes=self.app.routes,
         )
 
+        for route_path in openapi_schema["paths"]:
+            for route_method_schema in openapi_schema["paths"][route_path].keys():
+                code_samples = openapi_schema["paths"][route_path][route_method_schema].get("x-codeSamples", [])
+                code_samples.append({"lang": "python", "label": "Python 3", "source": 'print("Hello!")'})
+                openapi_schema["paths"][route_path][route_method_schema]["x-codeSamples"] = code_samples
+
         self.app.openapi_schema = openapi_schema
 
         return self.app.openapi_schema
@@ -52,5 +59,27 @@ class CustomOpenapi:
             openapi_url=openapi_url,
             title=self.app.title + " - RapiDoc",
             rapidoc_js_url="/static/js/rapidoc-min.js",
-            add_debug_support=True
+            add_debug_support=True,
         )
+
+    # def add_examples(openapi_schema: dict, examples_dir):
+    #     for filename in os.listdir(examples_dir):
+    #         if isinstance(examples_dir, pathlib.PurePath):
+    #             file_path = pathlib.Path(examples_dir / filename)
+    #         else:
+    #             file_path = pathlib.Path(examples_dir + "/" + filename)
+    #         if file_path.suffix in lang_extension_lookup:
+    #             parts = file_path.stem.split("-")
+    #             if len(parts) >= 2:
+    #                 route_method_schema = openapi_schema["paths"]["/" + "/".join(parts[:-1])][parts[-1]]
+    #                 code_samples = route_method_schema.get("x-codeSamples", [])
+    #                 code_samples.append(
+    #                     {"lang": lang_extension_lookup[file_path.suffix], "source": file_path.read_text()}
+    #                 )
+    #                 route_method_schema["x-codeSamples"] = code_samples
+    #             else:
+    #                 logger.warning(
+    #                     "Example filename does not meet format of {route_path}_{http_method}.{lang_extensions}"
+    #                 )
+    #         else:
+    #             logger.warning(f"Not a valid example file: {filename}")

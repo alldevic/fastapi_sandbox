@@ -8,5 +8,5 @@ swagger_ui_params = {
     "tryItOutEnabled": True,
     "requestSnippetsEnabled": True,
     "defaultModelsExpandDepth": 999,
-    "defaultModelExpandDepth": 999
+    "defaultModelExpandDepth": 999,
 }
