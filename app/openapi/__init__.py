@@ -8,7 +8,7 @@ from fastapi.requests import Request
 from fastapi.responses import HTMLResponse
 
 from .rapidoc import get_rapidoc_html
-
+from .snippets import generate_snippets
 
 class CustomOpenapi:
     """
@@ -39,11 +39,7 @@ class CustomOpenapi:
             routes=self.app.routes,
         )
 
-        for route_path in openapi_schema["paths"]:
-            for route_method_schema in openapi_schema["paths"][route_path].keys():
-                code_samples = openapi_schema["paths"][route_path][route_method_schema].get("x-codeSamples", [])
-                code_samples.append({"lang": "python", "label": "Python 3", "source": 'print("Hello!")'})
-                openapi_schema["paths"][route_path][route_method_schema]["x-codeSamples"] = code_samples
+        generate_snippets(openapi_schema, ['python', 'js', 'curl'])
 
         self.app.openapi_schema = openapi_schema
 
