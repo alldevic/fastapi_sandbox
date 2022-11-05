@@ -13,10 +13,13 @@ class User(SQLModelBaseUserDB, table=True):
     Database User model
     """
 
+
 class UserRead(schemas.BaseUser[uuid.UUID]):
+    id: uuid.UUID
     """
     Schema for reading user
     """
+
 
 class UserCreate(schemas.BaseUserCreate):
     """
