@@ -22,7 +22,7 @@ function enrichSchema(schema, targets) {
         schema.paths[path][method]["x-codeSamples"][snippetIdx] = {
           lang: snippet.id.split("_")[0],
           label: snippet.title,
-          source: snippet.content,
+          source: snippet.content.replaceAll('%7B','{').replaceAll('%7D','}'),
         };
       }
     }
