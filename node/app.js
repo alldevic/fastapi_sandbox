@@ -8,7 +8,6 @@ const app = (module.exports = new Koa());
 
 function enrichSchema(schema, targets) {
   for (var path in schema.paths) {
-    console.log(path)
     for (var method in schema.paths[path]) {
       var generatedCode = OpenAPISnippet.getEndpointSnippets(
         schema,
@@ -39,10 +38,10 @@ router.post("/enrich", koaBody({ json: true }), (ctx) => {
 
 // logger
 app.use(async (ctx, next) => {
-  console.log(`${new Date()} -->> ${ctx.method} ${ctx.url}`)
+  console.log(`${new Date().toISOString()} -->> ${ctx.method} ${ctx.url}`)
   await next();
   const rt = ctx.response.get("X-Response-Time");
-  console.log(`${new Date()} <<-- ${ctx.method} ${ctx.url} - ${rt}`);
+  console.log(`${new Date().toISOString()} <<-- ${ctx.method} ${ctx.url} - ${rt}`);
 });
 
 // x-response-time
