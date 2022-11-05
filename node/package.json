@@ -1,0 +1,17 @@
+{
+  "name": "koa_sample",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Nikolay Bely <belyynikolay@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "@koa/router": "^12.0.0",
+    "koa": "^2.13.4",
+    "koa-body": "^6.0.0",
+    "mkdirp": "^1.0.4",
+    "openapi-snippet": "git+https://github.com/michaelgwelch/openapi-snippet.git#1c00d91"
+  }
+}

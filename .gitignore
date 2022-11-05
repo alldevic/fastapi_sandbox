@@ -164,5 +164,6 @@ tools/pgadmin4/**/*
 
 media/*
 static/*
+**/node_modules
 
 !.gitkeep

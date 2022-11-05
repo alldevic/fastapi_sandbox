@@ -13,6 +13,7 @@ fastapi-toolbar = "*"
 fastapi-users = "==10.1.5"
 fastapi-users-db-sqlmodel = "==0.2.0"
 fastapi-amis-admin = "==0.2.5"
+requests = "==2.28.1"
 
 [dev-packages]
 

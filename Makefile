@@ -10,10 +10,10 @@ COMPOSES=-f $(MAIN_COMPOSE) -f $(PGADMIN_COMPOSE)
 
 ifeq ($(DEVELOPMENT), True)
 	CURRENT_UID := $(shell id -u):$(shell id -g)
-	IMAGES := $(UNIT_CONTAINER_NAME) $(POSTGRES_CONTAINER_NAME)
+	IMAGES := $(UNIT_CONTAINER_NAME) $(POSTGRES_CONTAINER_NAME) $(NODE_CONTAINER_NAME)
 else
 	CURRENT_UID := $(USER_ID):$(USER_GROUP_ID)
-	IMAGES := $(POSTGRES_CONTAINER_NAME)
+	IMAGES := $(POSTGRES_CONTAINER_NAME) $(NODE_CONTAINER_NAME)
 endif
 
 define SERVERS_JSON
@@ -45,10 +45,13 @@ export PGADMIN_COMPOSE
 volumes:
 	docker volume create $(COMPOSE_PROJECT_NAME)_$(POSTGRES_VOLUME_DATA_NAME)
 up:	volumes
+	echo $(NODE_CONTAINER_NAME)
 	docker build -f base/Dockerfile -t ${COMPOSE_PROJECT_NAME}_${UNIT_BASE_IMAGE_NAME} ./base/
 	docker compose -f $(MAIN_COMPOSE) up -d --force-recreate --build --remove-orphans $(IMAGES)
 down:
 	docker compose $(COMPOSES) down
+sh:
+	docker exec -it ${COMPOSE_PROJECT_NAME}_$(UNIT_CONTAINER_NAME) /bin/bash
 psql:
 	docker exec -e PGPASSWORD=$(POSTGRES_SU_PASS) -it $(POSTGRES_CONTAINER_NAME) \
 	psql -d $(POSTGRES_DB) -h $(POSTGRES_HOST) -p 5432 -U $(POSTGRES_SU)

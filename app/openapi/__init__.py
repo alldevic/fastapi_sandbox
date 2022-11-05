@@ -2,13 +2,16 @@
 OpenAPi schema and ui customizations
 """
 
+import json
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse
 
 from .rapidoc import get_rapidoc_html
-from .snippets import generate_snippets
+
+import requests
+
 
 class CustomOpenapi:
     """
@@ -37,11 +40,17 @@ class CustomOpenapi:
             version="0.0.1",
             description="## Testing some useful things \n - test \n - test1",
             routes=self.app.routes,
+            servers=[{"url": "http://localhost:8000"}],
         )
-
-        generate_snippets(openapi_schema, ['python', 'js', 'curl'])
-
-        self.app.openapi_schema = openapi_schema
+        url = "http://node:3000/enrich"
+        payload = {
+            "schema": openapi_schema,
+            "targets": ["python_requests", "javascript_fetch", "shell_curl", "shell_wget"],
+        }
+        rich_openapi_schema = requests.post(url, json=payload)
+        if rich_openapi_schema.status_code != 500:
+            rich_openapi_schema = rich_openapi_schema.json()
+        self.app.openapi_schema = rich_openapi_schema
 
         return self.app.openapi_schema
 
@@ -57,25 +66,3 @@ class CustomOpenapi:
             rapidoc_js_url="/static/js/rapidoc-min.js",
             add_debug_support=True,
         )
-
-    # def add_examples(openapi_schema: dict, examples_dir):
-    #     for filename in os.listdir(examples_dir):
-    #         if isinstance(examples_dir, pathlib.PurePath):
-    #             file_path = pathlib.Path(examples_dir / filename)
-    #         else:
-    #             file_path = pathlib.Path(examples_dir + "/" + filename)
-    #         if file_path.suffix in lang_extension_lookup:
-    #             parts = file_path.stem.split("-")
-    #             if len(parts) >= 2:
-    #                 route_method_schema = openapi_schema["paths"]["/" + "/".join(parts[:-1])][parts[-1]]
-    #                 code_samples = route_method_schema.get("x-codeSamples", [])
-    #                 code_samples.append(
-    #                     {"lang": lang_extension_lookup[file_path.suffix], "source": file_path.read_text()}
-    #                 )
-    #                 route_method_schema["x-codeSamples"] = code_samples
-    #             else:
-    #                 logger.warning(
-    #                     "Example filename does not meet format of {route_path}_{http_method}.{lang_extensions}"
-    #                 )
-    #         else:
-    #             logger.warning(f"Not a valid example file: {filename}")

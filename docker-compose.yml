@@ -33,6 +33,19 @@ services:
       private_network:
         ipv4_address: ${UNIT_HOST}
       
+  node:
+    container_name: ${COMPOSE_PROJECT_NAME}_${NODE_CONTAINER_NAME}
+    env_file: .env
+    build: 
+      context: ./node
+    restart: always
+    working_dir: /app/
+    command: sh -c "yarn && yarn cache clean && yarn start"
+    volumes:
+      - ./node/:/app/
+    networks:
+      private_network:
+        ipv4_address: ${NODE_HOST}
 
 networks:
   proxy:

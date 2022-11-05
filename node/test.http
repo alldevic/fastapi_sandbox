@@ -1,0 +1,14 @@
+# @name getSchema
+GET http://localhost:8000/openapi.json HTTP/1.1
+
+
+###
+@schema = {{ getSchema.response.body.$ }}
+POST http://localhost:3000/enrich HTTP/1.1
+Content-Type: application/json
+
+{
+    "targets": ["python", "javascript", "csharp"],
+    "schema": {{schema}}
+}
+###
