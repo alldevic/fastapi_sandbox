@@ -4,15 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-asyncpg = "==0.26.0"
-fastapi = "==0.85.0"
-orjson = "==3.8.0"
+asyncpg = "==0.27.0"
+fastapi = "==0.86.0"
+orjson = "==3.8.1"
 sqlmodel = "==0.0.8"
 alembic = "==1.8.1"
 fastapi-toolbar = "*"
-fastapi-users = "==10.1.5"
+fastapi-users = "==10.2.1"
 fastapi-users-db-sqlmodel = "==0.2.0"
-fastapi-amis-admin = "==0.2.5"
+fastapi-amis-admin = "==0.4.0"
 requests = "==2.28.1"
 
 [dev-packages]

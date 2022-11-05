@@ -36,6 +36,7 @@ services:
   node:
     container_name: ${COMPOSE_PROJECT_NAME}_${NODE_CONTAINER_NAME}
     env_file: .env
+    user: ${CURRENT_UID}
     build: 
       context: ./node
     restart: always

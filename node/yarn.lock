@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@koa/router@^12.0.0":
+"@koa/router@12.0.0":
   version "12.0.0"
   resolved "https://registry.yarnpkg.com/@koa/router/-/router-12.0.0.tgz#2ae7937093fd392761c0e5833c368379d4a35737"
   integrity sha512-cnnxeKHXlt7XARJptflGURdJaO+ITpNkOHmQu7NHmCoRinPbyvFzce/EG/E8Zy81yQ1W9MoSdtklc3nyaDReUw==
@@ -584,7 +584,7 @@ keygrip@~1.1.0:
   dependencies:
     tsscmp "1.0.6"
 
-koa-body@^6.0.0:
+koa-body@6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/koa-body/-/koa-body-6.0.1.tgz#46c490033cceebb2874c53cfbb04c45562cf3c84"
   integrity sha512-M8ZvMD8r+kPHy28aWP9VxL7kY8oPWA+C7ZgCljrCMeaU7uX6wsIQgDHskyrAr9sw+jqnIXyv4Mlxri5R4InIJg==
@@ -609,7 +609,7 @@ koa-convert@^2.0.0:
     co "^4.6.0"
     koa-compose "^4.1.0"
 
-koa@^2.13.4:
+koa@2.13.4:
   version "2.13.4"
   resolved "https://registry.yarnpkg.com/koa/-/koa-2.13.4.tgz#ee5b0cb39e0b8069c38d115139c774833d32462e"
   integrity sha512-43zkIKubNbnrULWlHdN5h1g3SEKXOEzoAlRsHOTFpnlDu8JlAOZSMJBLULusuXRequboiwJcj5vtYXKB3k7+2g==
@@ -670,7 +670,7 @@ mkdirp-promise@^1.0.0:
   resolved "https://registry.yarnpkg.com/mkdirp-promise/-/mkdirp-promise-1.1.0.tgz#2c84893ed676e0d98fb18fb9a6212fd1b2b9a819"
   integrity sha512-xzB0UZFcW1UGS2xkXeDh39jzTP282lb3Vwp4QzCQYmkTn4ysaV5dBdbkOXmhkcE1TQlZebQlgTceaWvDr3oFgw==
 
-mkdirp@^1.0.4:
+mkdirp@1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-1.0.4.tgz#3eb5ed62622756d79a5f0e2a221dfebad75c2f7e"
   integrity sha512-vVqVZQyf3WLx2Shd0qJ9xuvqgAyKPLAiqITEtqW0oIUjzo3PePDd6fW9iFz30ef7Ysp/oiWqbhszeGWW2T6Gzw==
