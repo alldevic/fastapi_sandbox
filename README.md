@@ -3,7 +3,7 @@
 - update settings.py
 - refact
 - dev deps
-- rapi: oauth redirect, search, additional buttons, code samples
+- rapi: oauth redirect, search, additional buttons
 - Implement DEVELOPMENT, DEBUG flags
 - Customize unit port
 - unit wait for db
@@ -13,7 +13,6 @@
 - Redis or KeyDB
 - pagination
 - fixtures
-- remove _debug_toolbar from openapi
 - add roles and permissions
 - feature flags
 - tests
