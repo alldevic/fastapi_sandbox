@@ -11,7 +11,8 @@ from starlette.responses import HTMLResponse
 
 rapidoc_default_parameters = {
     "render-style": "view",
-    "show-header": False,
+    "show-header": True,
+    "allow-search": False,
     "allow-spec-url-load": False,
     "allow-spec-file-load": False,
     "allow-server-selection": False,
@@ -63,6 +64,12 @@ def get_rapidoc_html(
                 document.getElementById("thedoc")
                         .addEventListener('after-try', _ => JSON.parse('[]'))
             )
+            document.addEventListener('keydown', function (e) {
+               if (e.ctrlKey && e.shiftKey && e.code === "KeyF"){
+                    document.getElementById("thedoc").showAdvancedSearchDialog = \
+                        !document.getElementById("thedoc").showAdvancedSearchDialog;
+                }
+            });
             </script>
         """
     html += "</body></html>"
