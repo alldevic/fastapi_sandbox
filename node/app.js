@@ -17,11 +17,14 @@ function enrichSchema(schema, targets) {
       );
       schema.paths[path][method]["x-codeSamples"] = [];
       for (var snippetIdx in generatedCode.snippets) {
-        var snippet = generatedCode.snippets[snippetIdx];
+        const snippet = generatedCode.snippets[snippetIdx];
+        var lang = snippet.id.split("_")[0]
+        const source = snippet.content.replaceAll('%7B','{').replaceAll('%7D','}')
+
         schema.paths[path][method]["x-codeSamples"][snippetIdx] = {
-          lang: snippet.id.split("_")[0],
+          lang: lang,
           label: snippet.title,
-          source: snippet.content.replaceAll('%7B','{').replaceAll('%7D','}'),
+          source: source,
         };
       }
     }
@@ -54,13 +57,6 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(router.routes()).use(router.allowedMethods());
-
-// CORS
-// app.use(
-//   cors({
-//     origin: "*",
-//   })
-// );
 
 app.listen(3000);
 console.log("started at 3000")

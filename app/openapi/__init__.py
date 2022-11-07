@@ -45,7 +45,7 @@ class CustomOpenapi:
         url = "http://node:3000/enrich"
         payload = {
             "schema": openapi_schema,
-            "targets": ["python_requests", "javascript_fetch", "shell_curl", "shell_wget"],
+            "targets": ["python_requests", "javascript_fetch", "shell_curl", "shell_wget", "powershell_restmethod", "http"],
         }
         rich_openapi_schema = requests.post(url, json=payload)
         if rich_openapi_schema.status_code != 500:
