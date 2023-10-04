@@ -16,4 +16,3 @@
 - remove _debug_toolbar from openapi
 - add roles and permissions
 - feature flags
-- tests
